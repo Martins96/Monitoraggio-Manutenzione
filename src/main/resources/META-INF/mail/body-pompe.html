@@ -1,0 +1,78 @@
+<html>
+<head>
+	<style>
+	body {
+		 font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+	}
+	
+	.title {
+		padding: 10px;
+		background-color: #bbb; 
+	}
+	
+	table {
+	  border-collapse: collapse;
+	  width: 300px;
+	}
+	
+	td, th {
+	  border: 1px solid #999;
+	  padding: 0.5rem;
+	  text-align: left;
+	}
+	tbody tr:nth-child(odd) {background-color: #ddd;}
+	
+	</style>
+</head>
+<body>
+	<div class="title">
+		<h1>Messaggio di monitoraggio e manutenzione</h1>
+	</div>
+	<p class="page-header-text mb-4"> 
+		<p><b>Attenzione!</b></p>
+		Questo messaggio &egrave; stato generato in data {{ current.date }}.<br>
+		Vengono segnalate le seguenti anomalie:
+		<h3>{{ table.title.calda }}</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>BAR</th>
+					<th>DATA</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{ table.data.calda }}
+			</tbody>
+		</table>
+		
+		<h3>{{ table.title.dolce }}</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>BAR</th>
+					<th>DATA</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{ table.data.dolce }}
+			</tbody>
+		</table>
+		
+		<h3>{{ table.title.pozzo }}</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>BAR</th>
+					<th>DATA</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{ table.data.pozzo }}
+			</tbody>
+		</table>
+	</p>
+</body>
+</html>

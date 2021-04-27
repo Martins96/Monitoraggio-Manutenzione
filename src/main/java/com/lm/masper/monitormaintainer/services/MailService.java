@@ -1,20 +1,28 @@
 package com.lm.masper.monitormaintainer.services;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
-
-import com.lm.masper.monitormaintainer.util.ResourceUtils;
 
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 
+/**
+ * A simple Enterprise Java Bean with a Mail Sender service
+ * 
+ * @author Luca M
+ * @category EJB
+ * @version 1.0.0
+ * @see io.quarkus.mailer.Mailer Quarkus Mail Service
+ *
+ */
 @ApplicationScoped
 public class MailService {
 	
@@ -26,36 +34,53 @@ public class MailService {
 	
 	@ConfigProperty(name = "monitor.mail.subject", defaultValue = "Monitoraggio e manutenzione")
 	String subject;
+	@ConfigProperty(name = "monitor.mail.addresses")
+	Optional<String> optionalAddresses;
 	
-	String MAIL_BODY_CLASSPATH = "META-INF/mail/body.html";
+	private String htmlBody = null;
 	
-	public void sendMail() {
-		final Mail mail = createMail(""); // TODO add email addresses
-		mailer.send(mail);
+	
+	public void sendMail(String htmlBody) {
+		Set<String> addresses = getAddresses();
+		this.htmlBody = htmlBody;
+		
+		if (addresses == null || addresses.size() == 0) {
+			log.debug("No Email addresses, nothing to do");
+			return;
+		}
+		
+		log.debug("Sending email to " + addresses);
+		addresses.forEach(this::createMailAndSend);
+		
 	}
 	
 	
-	private Mail createMail(String emailAddress) {
+
+	private void createMailAndSend(String emailAddress) {
 		
-		String editedBody = String.format(getBody());
-		return Mail.withHtml(
+		mailer.send(Mail.withHtml(
 				emailAddress,
 				this.subject, 
-				editedBody
-				);
+				htmlBody
+				));
 	}
 	
-	private String getBody() {
-		try {
-			return IOUtils.toString(ResourceUtils
-					.getAsClasspathResource(MAIL_BODY_CLASSPATH), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			log.error("Error during read Mail body key ", e);
+	private Set<String> getAddresses() {
+		log.debug("Splitting addresses: " + optionalAddresses.get());
+		if (!optionalAddresses.isPresent())
 			return null;
-		} finally {
-			log.debug("Body mail read from config");
-		}
+		final String fullAddresses = optionalAddresses.get();
+		
+		if (fullAddresses == null || fullAddresses.isEmpty())
+			return null;
+		
+		if (!fullAddresses.contains(";"))
+			return Set.of(fullAddresses);
+		
+		return new HashSet<>(Arrays.asList(fullAddresses.split(";")));
 	}
+
+	
 	
 	
 }
