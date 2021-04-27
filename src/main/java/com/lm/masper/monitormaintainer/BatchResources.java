@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
+import com.lm.masper.monitormaintainer.services.MacchineEJB;
 import com.lm.masper.monitormaintainer.services.PompaEJB;
 
 import io.quarkus.scheduler.Scheduled;
@@ -29,16 +30,34 @@ public class BatchResources {
 	@Inject
 	PompaEJB pompaEJB;
 	
+	@Inject
+	MacchineEJB macchineEJB;
+	
 	
 	@Scheduled(cron = "{cron.expr.pompe}",  concurrentExecution = ConcurrentExecution.SKIP)
-	public void scheduler() {
-		log.debug("Procedure START");
+	public void schedulerPompe() {
+		log.debug("Procedure POMPE START");
 		final long startTime = System.currentTimeMillis();
 		try {
 			pompaEJB.execution();
 		} finally {
-			log.debug("Procedure END");
-			log.debug("Procedure required [" + (System.currentTimeMillis() - startTime) 
+			log.debug("Procedure POMPE END");
+			log.debug("Procedure POMPE required [" + (System.currentTimeMillis() - startTime) 
+					+ "] millisec");
+		}
+		
+	}
+	
+	
+	@Scheduled(cron = "{cron.expr.macchine}",  concurrentExecution = ConcurrentExecution.SKIP)
+	public void schedulerMacchine() {
+		log.debug("Procedure MACCHINE START");
+		final long startTime = System.currentTimeMillis();
+		try {
+			macchineEJB.execution();
+		} finally {
+			log.debug("Procedure MACCHINE END");
+			log.debug("Procedure MACCHINE required [" + (System.currentTimeMillis() - startTime) 
 					+ "] millisec");
 		}
 		

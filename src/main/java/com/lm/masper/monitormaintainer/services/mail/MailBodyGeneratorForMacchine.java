@@ -45,7 +45,7 @@ public class MailBodyGeneratorForMacchine {
 		tmpBody = tmpBody.replace(BODY_PLACEHOLDER_TABLE_MACCHINA1_TITLE, "Macchina 1");
 		tmpBody = tmpBody.replace(BODY_PLACEHOLDER_TABLE_MACCHINA1_DATA, macchina1Table);
 		tmpBody = tmpBody.replace(BODY_PLACEHOLDER_TABLE_MACCHINA2_TITLE, "Macchina 2");
-		tmpBody = tmpBody.replace(BODY_PLACEHOLDER_TABLE_MACCHINA2_TITLE, macchina2Table);
+		tmpBody = tmpBody.replace(BODY_PLACEHOLDER_TABLE_MACCHINA2_DATA, macchina2Table);
 		
 		return tmpBody;
 	}
