@@ -47,7 +47,8 @@ public class ServletConfigurationView {
 		sb.append("<p>Di seguito elencate le configurazioni attuali</p>\n");
 		sb.append("<p>Per modificare le impostazioni seguire la guida "
 				+ "<a href=\"https://github.com/Martins96/Monitoraggio-Manutenzione\">GitHub Monitoraggio-Manutenzione</a>"
-				+ " e leggere il punto <b>Installer guide</b></p>\n");
+				+ " e leggere il punto <b>Installer guide</b>.<br>Oppure andare a questa pagina locale:"
+				+ " <a href=\"/guida.html\">Guida locale</a></p>\n");
 		
 		sb.append("<div class=\"mail-table\">\n");
 		sb.append("<h3>Mail config</h3>\n");

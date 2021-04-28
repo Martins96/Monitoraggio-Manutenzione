@@ -1,0 +1,179 @@
+<html>
+<head>
+	<style>
+		body {
+			margin: 0;
+			font-family: -apple-system, system-ui, "Segoe UI", Roboto,
+				"Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+				"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+		}
+		
+		.content {
+			margin: 10px;
+		}
+		
+		.lead {
+            font-weight: 300;
+            font-size: 2rem;
+        }
+
+        .banner {
+            font-size: 2.7rem;
+            margin: 0;
+            padding: 2rem 1rem;
+            background-color: #0d1c2c;
+            color: white;
+        }
+		
+		h1, h2, h3, h4, h5, h6 {
+			margin-bottom: 0.5rem;
+			font-weight: 400;
+			line-height: 1.5;
+		}
+		
+		h1 {
+			font-size: 2.5rem;
+		}
+		
+		code {
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 87.5%;
+            color: #ddd;
+            word-break: break-word;
+        }
+        .code {
+        	padding: 15px;
+            background-color: #222;
+            width: 750px;
+        }
+	</style>
+</head>
+<body>
+	<div class="banner lead">
+    	Guida configurazione applicazione
+	</div>
+	<div class="content">
+		<h1>Recuperare i file di configurazione</h1>
+		<div>
+			Aprire il file .jar con un gestore archivi come ad esempio 7zip, all'interno ci sono 2 file di configurazione:
+			<ul>
+				<li><b>application.properties</b> situato nella root dell'archivio</li>
+				<li><b>microprofile-config.properties</b> situato nella cartella <i>META-INF</i></li>
+			</ul>
+			<h2>application.properties</h2>
+			<p>
+				Questo file contiene le configurazioni applicative, configurare le seguenti propriet&agrave;:
+				<h3>Database</h3>
+				<div class="code">
+					<code>
+						%prod.quarkus.datasource.health.enabled=true<br>
+						%prod.quarkus.datasource.db-kind=mysql<br>
+						%prod.quarkus.datasource.username=your-username<br>
+						%prod.quarkus.datasource.password=yout-password<br>
+						%prod.quarkus.datasource.jdbc.url=jdbc:mysql://your-host:your-port/your-dbname<br>
+						%prod.quarkus.datasource.jdbc.max-size=10
+					</code>
+				</div>
+				Qui un esempio:
+				<div class="code">
+					<code>
+						%prod.quarkus.datasource.health.enabled=true<br>
+						%prod.quarkus.datasource.db-kind=mysql<br>
+						%prod.quarkus.datasource.username=masper<br>
+						%prod.quarkus.datasource.password=31fu1iHu<br>
+						%prod.quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/masper<br>
+						%prod.quarkus.datasource.jdbc.max-size=10
+					</code>
+				</div>
+				<h3>Mail</h3>
+				<div class="code">
+					<code>
+						%prod.quarkus.mailer.auth-methods=DIGEST-MD5 CRAM-SHA256 CRAM-SHA1 CRAM-MD5 PLAIN LOGIN<br>
+						%prod.quarkus.mailer.from=Robot mail<br>
+						%prod.quarkus.mailer.host=smtp/pop3 host name<br>
+						%prod.quarkus.mailer.port=111<br>
+						%prod.quarkus.mailer.ssl=true<br>
+						%prod.quarkus.mailer.username=Robot mail username<br>
+						%prod.quarkus.mailer.password=Robot mail password<br>
+						%prod.quarkus.mailer.mock=false
+					</code>
+				</div>
+				Ecco un esempio:
+				<div class="code">
+					<code>
+						%prod.quarkus.mailer.auth-methods=DIGEST-MD5 CRAM-SHA256 CRAM-SHA1 CRAM-MD5 PLAIN LOGIN<br>
+						%prod.quarkus.mailer.from=simple.travel.site.quarkus@gmail.com<br>
+						%prod.quarkus.mailer.host=smtp.gmail.com<br>
+						%prod.quarkus.mailer.port=465<br>
+						%prod.quarkus.mailer.ssl=true<br>
+						%prod.quarkus.mailer.username=mail@gmail.com<br>
+						%prod.quarkus.mailer.password=password123<br>
+						%prod.quarkus.mailer.mock=false
+					</code>
+				</div>
+			</p>
+			<div>
+				Attenzione: modificare le propriet&agrave; che iniziano con <b>%prod</b>, non toccare le <i>%dev</i> che servono solo per sviluppo.
+			</div>
+			<h3>Cron task</h3>
+			le propriet&agrave; di crontask servono per settare l'intervallo di tempo per la ripetizione dei processi di lettura del database.<br>
+			Per tutte le informazioni sulla sintassi visitare il sito 
+			<a href="http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html">quartz-scheduler</a>
+			<div class="code">
+					<code>
+						cron.expr.pompe=your expression for pump process<br>
+						cron.expr.macchine=your expression for machines process
+					</code>
+			</div>
+			Il seguente esempio ripete i processi ogni 30 secondi
+			<div class="code">
+					<code>
+						cron.expr.pompe=*/30 * * * * ?<br>
+						cron.expr.macchine=*/30 * * * * ?
+					</code>
+			</div>
+			
+			<h2>microprofile-config.properties</h2>
+			<div>
+				<p>
+					Questo file contiene le configurazioni delle logiche applicative
+				</p>
+				Configurare il valore massimo di bar dove, se superato, verr&agrave; notificata via mail l'anomalia
+				<div class="code">
+					<code>
+						max.bar.pompe=80
+					</code>
+				</div>
+				La seguente propriet&agrave; serve per definire il titolo (subject) dell'email di notifica:
+				<div class="code">
+					<code>
+						monitor.mail.subject=Monitoraggio e Manutenzione
+					</code>
+				</div>
+				Questo invece definisce gli indirizzi mail a cui mandare la notifica, &egrave; possibile definire pi&ugrave; indirizzi usando il punto e virgola come separatore (;), ecco un esempio
+				<div class="code">
+					<code>
+						monitor.mail.addresses=user1@mail.com;user2@mail.com;user3@mail.com
+					</code>
+				</div>
+				Qui sono definiti pi&ugrave; indirizzi usando il separatore.
+				
+			</div>
+		</div>
+		<h1>Completare la configurazione</h1>
+		<div>
+			Finita la configurazione serve sovrascrivere i file all'interno dell'archivio jar e chiudere l'archivio (seplice procedura di drag 'n' drop su gestori di archivi come 7zip).
+		</div>
+		<h1>Avviare il programma</h1>
+		<div>
+			Avendo Java 11 installato sulla macchina, basta avviare il programma da una shell/prompt/bash usando il comando:
+			<div class="code">
+				<code>
+					java -jar <i>nome-archivio.jar</i>
+				</code>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
