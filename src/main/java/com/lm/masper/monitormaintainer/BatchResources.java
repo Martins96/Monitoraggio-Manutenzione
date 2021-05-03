@@ -42,7 +42,7 @@ public class BatchResources {
 			pompaEJB.execution();
 		} finally {
 			log.debug("Procedure POMPE END");
-			log.debug("Procedure POMPE required [" + (System.currentTimeMillis() - startTime) 
+			log.info("Procedure POMPE required [" + (System.currentTimeMillis() - startTime) 
 					+ "] millisec");
 		}
 		
@@ -57,7 +57,7 @@ public class BatchResources {
 			macchineEJB.execution();
 		} finally {
 			log.debug("Procedure MACCHINE END");
-			log.debug("Procedure MACCHINE required [" + (System.currentTimeMillis() - startTime) 
+			log.info("Procedure MACCHINE required [" + (System.currentTimeMillis() - startTime) 
 					+ "] millisec");
 		}
 		

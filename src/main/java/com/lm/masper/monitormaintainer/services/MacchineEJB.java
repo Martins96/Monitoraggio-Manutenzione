@@ -51,7 +51,7 @@ public class MacchineEJB {
 				macchine2Table = generateHTMLTable(macchina2List);
 		
 		if (macchine1Table == null && macchine2Table == null) {
-			log.debug("All pumps are in order, nothing to do");
+			log.debug("All machines are in order, nothing to do");
 			return;
 		}
 		
@@ -65,14 +65,14 @@ public class MacchineEJB {
 	}
 	
 	
-	private StringBuffer generateHTMLTable(final List<MacchinaDTO> pompaList) {
-		if (pompaList == null || pompaList.size() == 0) {
-			log.debug("Pompa query size is 0");
+	private StringBuffer generateHTMLTable(final List<MacchinaDTO> macchinaList) {
+		if (macchinaList == null || macchinaList.size() == 0) {
+			log.debug("Macchina query size is 0");
 			return null;
 		}
 		final StringBuffer sb = new StringBuffer();
 		
-		pompaList.forEach(dto -> {
+		macchinaList.forEach(dto -> {
 			sb.append(tableEntry(dto));
 		});
 		

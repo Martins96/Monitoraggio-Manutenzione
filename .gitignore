@@ -10,6 +10,7 @@ release.properties
 .classpath
 .settings/
 bin/
+log/
 
 # IntelliJ
 .idea
